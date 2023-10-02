@@ -15,7 +15,6 @@ app.config.update(dict(DATABASE=os.path.join(app.root_path, 'flsite.db')))
 
 @app.route("/", methods=['POST', 'GET'])
 def index():
-
     return render_template("index.html")
 
 
