@@ -1,8 +1,9 @@
 from flask import Flask, render_template, url_for, request
-import sqlite3
 import os
+import sqlite3
 
-DATABASE = '/tmp/flsite.db'
+
+DATABASE = '/flsite.db'
 DEBUG = True
 SECRET_KEY = 'awdasdads12949%3$#56//dgf'
 
@@ -10,7 +11,7 @@ SECRET_KEY = 'awdasdads12949%3$#56//dgf'
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-app.config.update(dict(DATABASE=os.path.join(app.root_path, 'flsite.db')))
+app.config.update(dict(DATABASE=os.path.join(app.root_path, 'users_data.db')))
 
 
 @app.route("/", methods=['POST', 'GET'])
@@ -29,13 +30,14 @@ def connect_db():
     return conn
 
 
-def create_db():                                             # Вспомогательная функция для БД
-    db = connect_db()
-    with app.open_resource('sq_db.sql', mode='r') as f:
+def create_db():   
+    db = connect_db()                                          # Вспомогательная функция для БД
+    with app.open_resource('./templates/sq_db.sql', mode='r') as f:
         db.cursor().executescript(f.read())
     db.commit()
     db.close()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # app.run(debug=True)
+    create_db()
