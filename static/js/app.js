@@ -2,13 +2,21 @@ const inputElement = document.getElementById("title");
 const createBtn = document.getElementById("create");
 const listElement = document.getElementById("list");
 
-function getNoteTemplate(index) {
+let AvailableIndex = 0;
+
+function getNoteTemplate(value, index) {
   return `
-  <li
+  <li 
+    id="ul+${index}"
   class="list-group-item d-flex justify-content-between align-items-center">
-  <span>${inputElement.value}</span>
+  <span>${value}</span>
   <span>
-    <span class="btn btn-small btn-danger" data-type="remove" data-index="${index}">&times;</span>
+    <button 
+      onclick="handleClose(${index})"
+      class="btn btn-small btn-danger" 
+    >
+      &times;ты пидор &times;
+    </button>
   </span>
 </li>`
 }
@@ -18,24 +26,29 @@ function getNoteTemplate(index) {
 //   }
 // }
 // render()
-
+function handleClose(index){
+  const ul = document.getElementById("ul+"+ index);
+  listElement.removeChild(ul);
+}
 createBtn.addEventListener('click', function() {
   if(inputElement.value.length === 0) {
   return;
   }
   listElement.insertAdjacentHTML(
-    'beforeend', getNoteTemplate(inputElement.value))
+    'beforeend', getNoteTemplate(inputElement.value, AvailableIndex))
+    ++AvailableIndex;
     inputElement.value = ''
   }
 )
-listElement.onclick = function (event) {
-  if(event.target.dataset.index) {
-    const index = Number(event.target.dataset.index)
-    const type = event.target.dataset.type
+// listElement.onclick = function (event) {
 
-    if (type === 'remove') {
-      console.log('remove', index)
-    }
-  }
-}
+//   if(event.target.dataset.index) {
+//     const index = Number(event.target.dataset.index)
+//     const type = event.target.dataset.type
+
+//     if (type === 'remove') {
+      
+//     }
+//   }
+// }
 
